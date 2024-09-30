@@ -1,8 +1,8 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
 import { useDispatch } from 'react-redux'; // Import useDispatch
-import { addItem } from './pathToCartSlice';
+import { addItem } from './CartSlice'; 
 
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
@@ -216,7 +216,6 @@ function ProductList() {
         }
     ];
 
-    const ProductList = ({ plantsArray }) => {
   const dispatch = useDispatch(); // Initialize dispatch
   const [addedToCart, setAddedToCart] = useState({}); // State to track added products
 
@@ -255,14 +254,13 @@ function ProductList() {
 };
 
 
-    
    const styleObj={
     backgroundColor: '#4CAF50',
     color: '#fff!important',
     padding: '15px',
     display: 'flex',
     justifyContent: 'space-between',
-    alignIems: 'center',
+    alignItems: 'center',
     fontSize: '20px',
    }
    const styleObjUl={
@@ -320,6 +318,5 @@ const handlePlantsClick = (e) => {
 )}
     </div>
     );
-}
 
 export default ProductList;
