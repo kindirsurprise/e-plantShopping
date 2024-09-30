@@ -6,6 +6,8 @@ import './CartItem.css';
 const CartItem = ({ onContinueShopping }) => {
   const cart = useSelector(state => state.cart.items);
   const dispatch = useDispatch();
+  const [totalQuantity, setTotalQuantity] = useState(0);
+
 
   // Calculate total amount for all products in the cart
   const calculateTotalAmount = () => {
@@ -21,10 +23,11 @@ const CartItem = ({ onContinueShopping }) => {
     }, 0);
   };
 
-  // Update total quantity in the parent component
-  React.useEffect(() => {
-    setTotalQuantity(calculateTotalQuantity());
-  }, [cart, setTotalQuantity]);
+   // Update total quantity in the local state
+  useEffect(() => {
+    const newTotalQuantity = calculateTotalQuantity();
+    setTotalQuantity(newTotalQuantity);
+  }, [cart]);
 
 
   const handleContinueShopping = (e) => {
@@ -57,9 +60,10 @@ const CartItem = ({ onContinueShopping }) => {
     return (item.cost * item.quantity).toFixed(2); // Calculate total cost for the item
   };
 
-  return (
+ return (
     <div className="cart-container">
       <h2 style={{ color: 'black' }}>Total Cart Amount: ${calculateTotalAmount()}</h2>
+      <h3 style={{ color: 'black' }}>Total Quantity: {totalQuantity}</h3> {/* Display total quantity here */}
       <div>
         {cart.map(item => (
           <div className="cart-item" key={item.name}>
