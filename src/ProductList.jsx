@@ -1,6 +1,9 @@
 import React, { useState,useEffect } from 'react';
 import './ProductList.css'
 import CartItem from './CartItem';
+import { useDispatch } from 'react-redux'; // Import useDispatch
+import { addItem } from './pathToCartSlice';
+
 function ProductList() {
     const [showCart, setShowCart] = useState(false); 
     const [showPlants, setShowPlants] = useState(false); // State to control the visibility of the About Us page
@@ -212,6 +215,47 @@ function ProductList() {
             ]
         }
     ];
+
+    const ProductList = ({ plantsArray }) => {
+  const dispatch = useDispatch(); // Initialize dispatch
+  const [addedToCart, setAddedToCart] = useState({}); // State to track added products
+
+  // Handle adding a plant to the cart
+  const handleAddToCart = (product) => {
+    dispatch(addItem(product)); // Dispatch the addItem action
+    setAddedToCart((prevState) => ({
+      ...prevState,
+      [product.name]: true, // Set the product name as key and value as true
+    }));
+  };
+
+  return (
+    <div className="product-grid">
+      {plantsArray.map((category, index) => (
+        <div key={index}>
+          <h1>{category.category}</h1>
+          <div className="product-list">
+            {category.plants.map((plant, plantIndex) => (
+              <div className="product-card" key={plantIndex}>
+                <img className="product-image" src={plant.image} alt={plant.name} />
+                <div className="product-title">{plant.name}</div>
+                <div className="product-description">{plant.description}</div>
+                <div className="product-cost">{`$${plant.cost}`}</div>
+                <button className="product-button" onClick={() => handleAddToCart(plant)}>
+                  Add to Cart
+                </button>
+                {addedToCart[plant.name] && <div className="added-message">Added to Cart!</div>} {/* Optional: Display message */}
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
+    </div>
+  );
+};
+
+
+    
    const styleObj={
     backgroundColor: '#4CAF50',
     color: '#fff!important',
